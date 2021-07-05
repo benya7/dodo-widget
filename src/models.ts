@@ -11,19 +11,25 @@ export interface AppConfigurations {
 
 export type Configurations = InfraConfigurations & AppConfigurations;
 
+export interface INetwork {
+    chainId: number;
+    nameNet: string;
+    name: string;
+    rpc: string;
+    symbol: string;
+    explorer: string;
+}
+
 export interface DodoResponse {
     status: number;
     data: {
-        resAmount: number;
-        resCostGas: number;
-        resPricePerToToken: number;
-        resPricePerFromToken: number;
-        priceImpact: number;
-        targetDecimals: number;
+        resAmount: string;
+        resPricePerToToken: string;
+        resPricePerFromToken: string;
+        priceImpact: string;
         targetApproveAddr: string;
         to: string;
         data: string;
-        useSource: string;
     }
 }
 export interface DodoRequest {
