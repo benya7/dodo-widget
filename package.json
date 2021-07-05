@@ -7,7 +7,7 @@
     "lint": "tslint --project tsconfig.json",
     "test": "jest"
   },
-  "author": "Jenya Y.",
+  "author": "en0c",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.8.3",
