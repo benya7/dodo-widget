@@ -34,6 +34,7 @@ export const tradeStore: TradeState = {
         proxyAddress: '',
         requestData: ''
     },
+    tokenList: []
 }
 
 const tradeReducer = (state: any, action: any) => {
@@ -82,6 +83,11 @@ const tradeReducer = (state: any, action: any) => {
             return {
                 ...state,
                 tradeRequest: { ...state.tradeRequest, ...action.payload }
+            }
+        case actions.setTokenList:
+            return {
+                ...state,
+                tokenList: action.payload
             }
         default:
             return state;

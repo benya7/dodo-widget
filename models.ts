@@ -63,3 +63,23 @@ export interface INetworkWallet {
     rpcUrls?: string[];
 }
 export type IRequestParams = Array<INetworkWallet>
+
+interface IToken {
+    name: string,
+    symbol: string,
+    address: string,
+    decimals: number
+}
+interface RParams {
+    targetApprove: string;
+    proxyAddress: string;
+    requestData: string;
+}
+export interface TradeState {
+    tokenFrom: IToken,
+    tokenTo: IToken,
+    amountFrom: string;
+    amountTo: string;
+    dodoRequest: DodoRequest;
+    tradeRequest: RParams;
+}

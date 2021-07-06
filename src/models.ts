@@ -16,6 +16,7 @@ export interface INetwork {
     chainId: string;
     nameNet: string;
     name: string;
+    aliasApi: string;
     rpc: string;
     symbol: string;
     explorer: string;
@@ -50,3 +51,43 @@ export interface DodoApi {
     getDodoRoute: (params: DodoRequest) => Promise<DodoResponse>;
 }
 
+export interface INetworkWallet {
+    chainId: string;
+    blockExplorerUrls?: string[];
+    chainName?: string;
+    iconUrls?: string[];
+    nativeCurrency?: {
+        name: string;
+        symbol: string;
+        decimals: number;
+    };
+    rpcUrls?: string[];
+}
+
+export interface IWallet {
+    name: string;
+    connector: any;
+    logo: string;
+}
+export type IRequestParams = Array<INetworkWallet>
+
+interface IToken {
+    name: string,
+    symbol: string,
+    address: string,
+    decimals: number
+}
+interface RParams {
+    targetApprove: string;
+    proxyAddress: string;
+    requestData: string;
+}
+export interface TradeState {
+    tokenFrom: IToken,
+    tokenTo: IToken,
+    amountFrom: string;
+    amountTo: string;
+    dodoRequest: DodoRequest;
+    tradeRequest: RParams;
+    tokenList: Array<IToken>;
+}

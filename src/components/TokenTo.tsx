@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { Box, TextInput, Text, Select } from "grommet";
+import { Box, Text, Select } from "grommet";
 import { useEffect, useState } from 'preact/hooks';
 import { getListTokens, useDispatch, useStore } from '../hooks';
 import { actions, initialList } from '../constants';
