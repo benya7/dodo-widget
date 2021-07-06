@@ -1,7 +1,7 @@
 import { h, createContext, ComponentChildren } from 'preact';
 import { AppConfigurations, DodoApi } from './models';
-import { useEffect, useRef, useState } from 'preact/hooks';
-import { ApiClient } from './services/apiClient';
+import { useReducer, useRef } from 'preact/hooks';
+import { dodoApiClient } from './services/dodoApiClient';
 import { Web3ReactProvider, UnsupportedChainIdError } from '@web3-react/core'
 import {
     NoEthereumProviderError,
@@ -9,10 +9,12 @@ import {
 } from '@web3-react/injected-connector'
 import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@web3-react/walletconnect-connector'
 import { Web3Provider } from '@ethersproject/providers'
+import tradeReducer, { tradeStore } from './reducers/tradeReducer';
 
 
 export const ConfigContext = createContext<AppConfigurations>({} as AppConfigurations);
 export const ServiceContext = createContext<DodoApi | undefined>(undefined);
+export const TradeContext = createContext<any>(undefined);
 
 interface Props {
     children: ComponentChildren;
@@ -42,17 +44,18 @@ const getLibrary = (provider: any): Web3Provider => {
 }
 
 export const AppContext = ({ children, config }: Props) => {
-    const services = useRef(new ApiClient({
+    const services = useRef(new dodoApiClient({
         baseUrl: config.dodoBaseUrl,
         debug: config.debug
     }));
-
     return (
         <ConfigContext.Provider value={config}>
             <ServiceContext.Provider value={services.current}>
+                <TradeContext.Provider value={useReducer(tradeReducer, tradeStore)}>
                     <Web3ReactProvider getLibrary={getLibrary}>
                         {children}
                     </Web3ReactProvider>
+                </TradeContext.Provider>
             </ServiceContext.Provider>
         </ConfigContext.Provider>
     );

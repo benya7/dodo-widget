@@ -14,7 +14,7 @@ interface ApiRequest {
     requestData: DodoRequest;
 }
 
-export class ApiClient implements DodoApi {
+export class dodoApiClient implements DodoApi {
     private readonly client: AxiosInstance;
 
     constructor(options: ApiClientOptions) {
