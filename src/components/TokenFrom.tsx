@@ -1,0 +1,80 @@
+import { h } from "preact";
+import { Box, TextInput, Text, Select } from "grommet";
+import { useEffect, useState } from 'preact/hooks';
+import { getListTokens, useDispatch, useStore } from '../hooks';
+import { actions, initialList } from '../constants';
+
+const TokenFrom = () => {
+    const { tokenFrom, amountFrom } = useStore();
+    const dispatch = useDispatch();
+    const [options, setOptions] = useState(initialList);
+
+    const [tokenList, setTokenList] = useState([]);
+    useEffect(() => {
+        getListTokens('mainnet').then((tokens) => {
+            setTokenList(tokens)
+            setOptions(tokens)
+        })
+    }, [])
+    return (
+        <Box gap='xsmall'>
+            <Box
+                direction='row'
+                justify='between'
+                align='center'
+                pad={{ horizontal: 'small' }}
+            >
+                <Text size='small'>
+                    Pay
+                </Text>
+                <Text size='small'>
+                    Balance: 0
+                </Text>
+            </Box>
+            <Box
+                direction='row'
+                justify='between'
+                align='center'
+                background='light-6'
+                round='medium'
+            >
+                <Select
+                    size="small"
+                    defaultValue={tokenFrom.name}
+                    placeholder="Select Token"
+                    options={options}
+                    labelKey='symbol'
+                    valueKey={{ key: 'symbol', reduce: true }}
+                    onChange={({ option }: any) => dispatch({ type: actions.setTokenFrom, payload: option })}
+                    onClose={() => setOptions(tokenList)}
+                    onSearch={(text: any) => {
+                        // The line below escapes regular expression special characters:
+                        // [ \ ^ $ . | ? * + ( )
+                        const escapedText = text.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
+
+                        // Create the regular expression with modified value which
+                        // handles escaping special characters. Without escaping special
+                        // characters, errors will appear in the console
+                        const exp = new RegExp(escapedText, 'i');
+                        setOptions(tokenList.filter((o: any) => exp.test(o.symbol)));
+                    }}
+                />
+                <Box width='380px' pad={{ right: 'small' }}>
+                    <TextInput
+                        reverse
+                        plain
+                        textAlign='end'
+                        placeholder='0'
+                        size='small'
+                        value={amountFrom}
+                        onChange={(event: any) => dispatch({ type: actions.setAmountFrom, payload: event.target.value })}
+                    />
+                </Box>
+
+            </Box>
+        </Box>
+
+    )
+}
+
+export default TokenFrom;
