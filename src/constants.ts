@@ -1,11 +1,12 @@
 import { injected, walletconnect } from './connectors';
 import { INetwork } from './models';
 
+
 export const Networks: Array<INetwork> = [
-    { chainId: 1, nameNet: 'Ethereum Mainnet', name: 'Ethereum', rpc: 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161', symbol: 'ETH', explorer: 'https://etherscan.io'},
-    { chainId: 56, nameNet: 'Binance Smart Chain Mainnet', name: 'Binance', rpc: 'https://bsc-dataseed1.ninicoin.io', symbol: 'BNB', explorer: 'https://bscscan.com/'},
-    { chainId: 128, nameNet: 'Huobi ECO Chain Mainnet', name: 'Heco', rpc: 'https://http-mainnet-node.huobichain.com', symbol: 'HT', explorer: 'https://hecoinfo.com/'},
-    { chainId: 137, nameNet: 'Polygon Mainnet', name: 'Polygon', rpc: 'https://rpc-mainnet.maticvigil.com/', symbol: 'MATIC', explorer: 'https://polygonscan.com'}
+    { id: 1, chainId: '0x1', nameNet: 'Ethereum Mainnet', name: 'Ethereum', rpc: 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161', symbol: 'ETH', explorer: 'https://etherscan.io'},
+    { id: 56, chainId: '0x38', nameNet: 'Binance Smart Chain Mainnet', name: 'Binance', rpc: 'https://bsc-dataseed1.ninicoin.io', symbol: 'BNB', explorer: 'https://bscscan.com/'},
+    { id: 128, chainId: '0x80', nameNet: 'Huobi ECO Chain Mainnet', name: 'Heco', rpc: 'https://http-mainnet-node.huobichain.com', symbol: 'HT', explorer: 'https://hecoinfo.com/'},
+    { id: 137, chainId: '0x89', nameNet: 'Polygon Mainnet', name: 'Polygon', rpc: 'https://rpc-mainnet.maticvigil.com/', symbol: 'MATIC', explorer: 'https://polygonscan.com'}
   ]
 
 
@@ -20,6 +21,16 @@ export const theme = {
         size: '14px',
         height: '20px',
       },
+      control: {
+        border: {
+          width: '0px'
+        }
+      },
+      focus: {
+        outline: {
+          size: '0px'
+        }
+      }
     },
     layer: {
       border: {
@@ -32,5 +43,13 @@ export const theme = {
     },
     radioButton: {
       size: '18px'
+    },
+    select: {
+      options: {
+        container: {
+          size: '5px'
+        }
+      }
     }
+
   };
