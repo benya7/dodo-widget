@@ -12,6 +12,7 @@ export interface AppConfigurations {
 export type Configurations = InfraConfigurations & AppConfigurations;
 
 export interface INetwork {
+    id: number;
     chainId: string;
     nameNet: string;
     name: string;
