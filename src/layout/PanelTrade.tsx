@@ -2,8 +2,8 @@ import { h } from 'preact';
 import { Box, Button, Text, Anchor} from "grommet";
 import TokenFrom from '../components/PanelTrade/TokenFrom';
 import TokenTo from '../components/PanelTrade/TokenTo';
-import { useSigner, useStore } from '../hooks';
-import { minReceivedTip, nativeTokenAdress, slippageToleranceTip } from '../constants';
+import { useDispatch, useSigner, useStore } from '../hooks';
+import { actions, minReceivedTip, nativeTokenAdress, slippageToleranceTip } from '../constants';
 import { TipTrade } from '../components/PanelTrade/TipTrade';
 import { useWeb3React } from '@web3-react/core';
 import { sendTradeEthBase, sendTradeTokenBase } from '../services/tradeHandler';
@@ -17,7 +17,7 @@ const PanelTrade = () => {
     const [tradeSuccess, setTradeSuccess] = useState(false)
     const [tradeError, setTradeError] = useState(false)
     const [messageError, setMessageError] = useState('')
-
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setTimeout(() => {
@@ -52,8 +52,9 @@ const PanelTrade = () => {
                     </Box>
                 }
 
-                <Button label='Confirm Order' disabled={!availableReq ? true : false} onClick={() => {
+                <Button primary label='Confirm Order' disabled={!availableReq ? true : false} onClick={() => {
                     if (tokenFrom !== '' && tokenFrom === nativeTokenAdress && signer) {
+                        dispatch({ type: actions.setAvailableReq, payload: false })
                         sendTradeEthBase(tradeRequest, account, signer).then((result) => {
                             setHashTx(result.hash)
                             setTradeSuccess(true)

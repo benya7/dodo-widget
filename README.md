@@ -4,6 +4,9 @@
 
 In order to embed the widget add the following snippet at any location on the hosting page:
 
+Demo Url: 
+[https://en0c-026.github.io/dodo-widget/](https://en0c-026.github.io/dodo-widget/)
+
 ```html
 <script>
     (function (w, d, s, o, f, js, fjs) {
