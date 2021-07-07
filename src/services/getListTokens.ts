@@ -8,9 +8,7 @@ export const getListTokens = async (chainName: string | null): Promise<any> => {
 
         const result = await axios.get(baseURL, { params: { '_limit': 1000, 'chains.name': chainName } })
         if (result.status === 200) {
-            const tokens = result.data
-            console.log(tokens);
-            
+            const tokens = result.data            
             tokens.map((token: any) => {
                 tokenList.push({
                     id: token.id,

@@ -11,22 +11,12 @@ import { getNetworkAlias } from '../services/getNetworkAlias';
 import { getRoute } from '../services/getRoute';
 import { parseAmount } from '../services/tradeHandler';
 
-
-const timer = async (ms: any) => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve
-        }, ms)
-    })
-}
-
 const Home = () => {
 
     const service = useService();
     const dispatch = useDispatch();
     const { account, chainId } = useWeb3React();
     const { tokenTo, tokenFrom, amountFrom, dodoRequest, equalTokens } = useStore();
-    const store = useStore();
     const [alias, setAlias] = useState<string | null>(null)
     const [rpc, setRpc] = useState<string | null>(null)
 
