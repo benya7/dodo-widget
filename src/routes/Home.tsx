@@ -88,7 +88,7 @@ const Home = () => {
                 
                 setTimeout(() => {
                     dispatch({ type: actions.setAvailableReq, payload: true }) 
-                }, 1500);
+                }, 800);
                 
             })
         } else {
