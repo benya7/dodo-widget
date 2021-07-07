@@ -14,7 +14,7 @@ export const tradeStore: TradeState = {
         address: '',
         decimals: 0
     },
-    amountFrom: 0,
+    amountFrom: null,
     amountTo: '0',
     dodoRequest: {
         fromTokenAddress: '',
@@ -25,16 +25,16 @@ export const tradeStore: TradeState = {
         slippage: 3,
         userAddr: '',
         chainId: 0,
-        deadLine: 1200,
-        source: '',
         rpc: ''
     },
     tradeRequest: {
         targetApprove: '',
         proxyAddress: '',
-        requestData: ''
+        requestData: '',
+        requestValue: ''
     },
-    tokenList: []
+    tokenList: [],
+    availableReq: false
 }
 
 const tradeReducer = (state: any, action: any) => {
@@ -88,6 +88,15 @@ const tradeReducer = (state: any, action: any) => {
             return {
                 ...state,
                 tokenList: action.payload
+            }
+        case actions.setAvailableReq:
+            return {
+                ...state,
+                availableReq: action.payload
+            }
+        case actions.setInitalStore:
+            return {
+                ...action.payload
             }
         default:
             return state;

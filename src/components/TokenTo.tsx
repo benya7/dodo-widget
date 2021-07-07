@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { Box, Text, Select } from "grommet";
+import { Box, Text, Select, Spinner } from "grommet";
 import { useEffect, useState } from 'preact/hooks';
 import { useDispatch, useStore } from '../hooks';
 import { actions, initialList } from '../constants';
@@ -8,7 +8,7 @@ import { UserBalance } from "./UserBalance";
 
 
 const TokenTo = () => {
-    const { tokenTo, amountTo, tokenList } = useStore();
+    const { tokenTo, amountTo, amountFrom, tokenList, availableReq } = useStore();
     const dispatch = useDispatch();
     const [options, setOptions] = useState(initialList);
 
@@ -60,13 +60,9 @@ const TokenTo = () => {
                         setOptions(listToken.filter((o: any) => exp.test(o.symbol)));
                     }}
                 />
-                <Box width='390px' pad={{ right: 'medium' }}>
-                    <Text
-                        textAlign='end'
-                        size='small'
-                    >
-                        {amountTo}
-                    </Text>
+                <Box width='390px' pad={{ right: 'medium' }} align='end' alignContent='end' justify='end'>
+                {!availableReq && amountFrom > 0 ? <Spinner size='1px' /> : <Text textAlign='end' size='medium' > {amountTo}</Text>}
+                    
                 </Box>
             </Box>
         </Box>

@@ -64,9 +64,11 @@ const TokenFrom = () => {
                         plain
                         textAlign='end'
                         placeholder='0'
-                        size='small'
+                        size='medium'
                         value={amountFrom}
-                        onChange={(event: any) => dispatch({ type: actions.setAmountFrom, payload: event.target.value })}
+                        onChange={(event: any) => {
+                            dispatch({ type: actions.setAmountFrom, payload: event.target.value })
+                        }}
                     />
                 </Box>
 

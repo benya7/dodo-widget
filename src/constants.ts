@@ -2,6 +2,8 @@ import { injected, walletconnect } from './connectors';
 import { INetwork, IWallet } from './models';
 
 export const nativeTokenAdress: string = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+export const slippageToleranceTip: string = 'You transaction will revert if there is an unfavorable change to the price by more than this percentage'
+export const minReceivedTip: string = 'You will receive no less than this amount';
 
 export const initialList = [
   {
@@ -13,18 +15,13 @@ export const initialList = [
   }
 ]
 export const ERC20Abi = [
-  // Some details about the token
-  "function name() view returns (string)",
-  "function symbol() view returns (string)",
+  // Read-Only Functions
+  "function balanceOf(address owner) view returns (uint256)",
 
-  // Get the account balance
-  "function balanceOf(address) view returns (uint)",
-
-  // Send some of your tokens to someone else
-  "function transfer(address to, uint amount)",
-
-  // An event triggered whenever anyone transfers to someone else
-  "event Transfer(address indexed from, address indexed to, uint amount)"
+  // Authenticated Functions
+  "function approve(address spender, uint amount) returns (boolean)",
+  // Events
+  "event Approval(address indexed owner, address indexed spender, uint value)"
 ];
 export const actions = {
   setTokenFrom: 'set-token-from',
@@ -36,7 +33,9 @@ export const actions = {
   setSource: 'set-source',
   setDodoRequest: 'set-dodo-request',
   setTradeRequest: 'set-trade-request',
-  setTokenList: 'set-token-list'
+  setTokenList: 'set-token-list',
+  setAvailableReq: 'set-available-request',
+  setInitalStore: 'set-initial-store'
 }
 
 export const Networks: Array<INetwork> = [
@@ -124,6 +123,15 @@ export const theme = {
         size: '5px'
       }
     }
-  }
+  },
+  tip: {
+    content: {
+      background: "dark-4",
+      elevation: "none",
+      margin: "none",
+      pad: "small",
+      round: "small"
+    }
+  },
 
 };

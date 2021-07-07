@@ -81,13 +81,16 @@ interface RParams {
     targetApprove: string;
     proxyAddress: string;
     requestData: string;
+    requestValue: string;
 }
 export interface TradeState {
     tokenFrom: IToken,
     tokenTo: IToken,
-    amountFrom: number;
+    amountFrom: number | null;
     amountTo: string;
     dodoRequest: DodoRequest;
     tradeRequest: RParams;
     tokenList: Array<IToken>;
+    availableReq: boolean;
+    
 }

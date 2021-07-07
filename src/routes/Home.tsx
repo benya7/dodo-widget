@@ -46,6 +46,11 @@ const Home = () => {
 
                 }
             })
+            dispatch({
+                type: actions.setTradeRequest, payload: {
+                    requestValue: amount
+                }
+            })
         })
 
     }, [tokenTo, tokenFrom, amountFrom, account, chainId])
@@ -79,14 +84,19 @@ const Home = () => {
             tokenTo.address !== '' &&
             amountFrom > 0
         ) {
-            getRoute(service, dodoRequest).then((data) => {
+            dispatch({ type: actions.setAvailableReq, payload: false })
+            getRoute(service, dodoRequest).then((result) => {
+                const { resAmount, targetApproveAddr, to, data} = result
+                dispatch({ type: actions.setAmountTo, payload: resAmount })
                 dispatch({
                     type: actions.setTradeRequest, payload: {
-                        proxyAddress: data.to,
-                        requestData: data.data
+                        targetApprove: targetApproveAddr,
+                        proxyAddress: to,
+                        requestData: data
                     }
                 })
-                dispatch({ type: actions.setAmountTo, payload: data.resAmount })
+                
+                dispatch({ type: actions.setAvailableReq, payload: true })
                 
             })
         } else {

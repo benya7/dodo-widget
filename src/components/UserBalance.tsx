@@ -25,7 +25,7 @@ export const UserBalance = (props: any) => {
                 })
             }
 
-            if (tokenAddress !== nativeTokenAdress && signer) {
+            if (tokenAddress !== '' && tokenAddress !== nativeTokenAdress && signer) {
                 const erc20 = new Contract(tokenAddress, ERC20Abi, signer);
                 erc20.balanceOf(account).then((balance: any) => {
                     setBalance(balance)
