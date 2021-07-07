@@ -8,7 +8,7 @@ import { UserBalance } from "./UserBalance";
 
 
 const TokenTo = () => {
-    const { tokenTo, amountTo, amountFrom, tokenList, availableReq } = useStore();
+    const { tokenTo, amountTo, tokenList, fetchPriceLoad } = useStore();
     const dispatch = useDispatch();
     const [options, setOptions] = useState(initialList);
 
@@ -61,7 +61,7 @@ const TokenTo = () => {
                     }}
                 />
                 <Box width='390px' pad={{ right: 'medium' }} align='end'>
-                {!availableReq && amountFrom > 0 ? <Spinner size='1px' /> : <Text textAlign='end' size='medium' > {amountTo}</Text>}
+                {fetchPriceLoad ? <Spinner size='1px' /> : <Text textAlign='end' size='medium' > {amountTo}</Text>}
                     
                 </Box>
             </Box>

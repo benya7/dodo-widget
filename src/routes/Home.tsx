@@ -76,13 +76,16 @@ const Home = () => {
             dispatch({ type: actions.setEqualTokens, payload: false})
         } else {
             dispatch({ type: actions.setEqualTokens, payload: true})
+            dispatch({ type: actions.setAvailableReq, payload: false })
         }
     }, [tokenTo, tokenFrom])
 
     useEffect(() => {
         if (equalTokens !== true && tokenFrom.address !== '' && tokenTo.address !== '' && amountFrom > 0) {
             dispatch({ type: actions.setAvailableReq, payload: false })
+            dispatch({ type: actions.setFetchPriceLoad, payload: true })
             getRoute(service, dodoRequest).then((result) => {
+                
                 const { resPricePerFromToken, resAmount, targetApproveAddr, to, data } = result
 
                 if (resPricePerFromToken && resAmount && to && data) {
@@ -90,6 +93,7 @@ const Home = () => {
                     dispatch({ type: actions.setAmountTo, payload: resAmount })
                     dispatch({ type: actions.setTradeRequest, payload: { targetApprove: targetApproveAddr, proxyAddress: to, requestData: data } })
                     dispatch({ type: actions.setAvailableReq, payload: true })
+                    dispatch({ type: actions.setFetchPriceLoad, payload: false })
                 }
 
             }).catch((error) => {

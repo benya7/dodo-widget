@@ -36,7 +36,8 @@ export const tradeStore: TradeState = {
     },
     tokenList: [],
     availableReq: false,
-    equalTokens: false
+    equalTokens: false,
+    fetchPriceLoad: false
 }
 
 const tradeReducer = (state: any, action: any) => {
@@ -109,6 +110,11 @@ const tradeReducer = (state: any, action: any) => {
             return {
                 ...state,
                 equalTokens: action.payload
+            }
+            case actions.setFetchPriceLoad:
+            return {
+                ...state,
+                fetchPriceLoad: action.payload
             }
         default:
             return state;

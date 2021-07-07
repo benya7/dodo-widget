@@ -37,7 +37,8 @@ export const actions = {
   setAvailableReq: 'set-available-request',
   setInitalStore: 'set-initial-store',
   setPricePerFromToken: 'set-price-per-from-token',
-  setEqualTokens: 'set-equal-tokens'
+  setEqualTokens: 'set-equal-tokens',
+  setFetchPriceLoad: 'set-fetch-price-load'
 }
 
 export const Networks: Array<INetwork> = [

@@ -94,4 +94,5 @@ export interface TradeState {
     tokenList: Array<IToken>;
     availableReq: boolean;
     equalTokens: boolean;
+    fetchPriceLoad: boolean
 }
