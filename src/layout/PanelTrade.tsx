@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Box, Button, Text } from "grommet";
+import { Box, Button, Text, Spinner } from "grommet";
 import TokenFrom from '../components/PanelTrade/TokenFrom';
 import TokenTo from '../components/PanelTrade/TokenTo';
 import { useSigner, useStore } from '../hooks';
@@ -9,7 +9,7 @@ import { useWeb3React } from '@web3-react/core';
 import { sendTradeEthBase, sendTradeTokenBase } from '../services/tradeHandler';
 
 const PanelTrade = () => {
-    const { tokenFrom, amountTo, dodoRequest, availableReq, tradeRequest } = useStore()
+    const { tokenFrom, amountTo, amountFrom, dodoRequest, availableReq, tradeRequest } = useStore()
     const { account } = useWeb3React()
     const signer = useSigner()
 
@@ -64,7 +64,7 @@ const PanelTrade = () => {
                         <TipTrade text={minReceivedTip} />
                     </Box>
                     <Text size='small'>
-                        {amountTo}
+                    {!availableReq && amountFrom > 0 ? <Spinner size='1px' /> : <Text textAlign='end' size='small' > {amountTo}</Text>}
                     </Text>
                 </Box>
 
