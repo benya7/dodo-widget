@@ -1,4 +1,4 @@
-# Dodo-widget
+# Dodo Widget Trade
 
 ## Usage
 
