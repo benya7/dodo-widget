@@ -15,14 +15,14 @@ const Home = () => {
 
     const service = useService();
     const dispatch = useDispatch();
-    const { account, chainId } = useWeb3React();
+    const { account, chainId, library } = useWeb3React();
     const { tokenTo, tokenFrom, amountFrom, amountTo, dodoRequest, tokenList } = useStore();
     const store = useStore();
     const [alias, setAlias] = useState<string | null>(null)
     const [rpc, setRpc] = useState<string | null>(null)
     const amount: string = (amountFrom * 10 ** tokenFrom.decimals).toString()
     useEffect(() => {
-        
+
         dispatch({
             type: actions.setDodoRequest,
             payload: {
@@ -40,7 +40,7 @@ const Home = () => {
 
     useEffect(() => {
         console.log(store)
-        
+
     }, [store])
 
     useEffect(() => {
@@ -51,7 +51,7 @@ const Home = () => {
         if (!account) {
             return
         }
-        dispatch({ type: actions.setDodoRequest, payload: { rpc: rpc }})
+        dispatch({ type: actions.setDodoRequest, payload: { rpc: rpc } })
         getListTokens(alias).then((tokens) => {
             dispatch({
                 type: actions.setTokenList,
@@ -62,34 +62,39 @@ const Home = () => {
 
 
     useEffect(() => {
-        if(
+        if (
             tokenFrom.address !== '' &&
             tokenTo.address !== '' &&
             amountFrom !== 0 &&
             amountFrom !== 1
         ) {
-            getRoute(service, dodoRequest).then((data) => {
-                dispatch({
-                    type: actions.setTradeRequest, payload: {
-                        targetApprove: data.targetApproveAddr,
-                        proxyAddress: data.to,
-                        requestData: data.data
+            setTimeout(() => {
+                getRoute(service, dodoRequest).then((data) => {
+                    dispatch({
+                        type: actions.setTradeRequest, payload: {
+                            targetApprove: data.targetApproveAddr,
+                            proxyAddress: data.to,
+                            requestData: data.data
+                        }
+                    })
+                    dispatch({
+                        type: actions.setAmountTo, payload: data.resAmount
                     }
+                    )
                 })
-                dispatch({
-                    type: actions.setAmountTo, payload: data.resAmount
-                }
-                )
-            })
+            }, 1500);
         } else {
             return
         }
-    }, [tokenTo, tokenFrom, account, chainId])
+    }, [tokenTo, tokenFrom, amount, account, chainId])
 
     return (
         <Box>
             <Box direction='row' gap='small' alignSelf='end' pad='small'>
                 <ModalConnect />
+                <Button label='console' onClick={() => {
+                    console.log(library.getSigner())
+                }} />
             </Box>
             <PanelTrade />
         </Box>

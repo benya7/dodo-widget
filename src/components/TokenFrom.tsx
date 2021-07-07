@@ -3,6 +3,7 @@ import { Box, TextInput, Text, Select } from "grommet";
 import { useEffect, useState } from 'preact/hooks';
 import { useDispatch, useStore } from '../hooks';
 import { actions, initialList } from '../constants';
+import { UserBalance } from "./UserBalance";
 
 const TokenFrom = () => {
     const { tokenFrom, amountFrom, tokenList} = useStore();
@@ -23,12 +24,11 @@ const TokenFrom = () => {
                 align='center'
                 pad={{ horizontal: 'small' }}
             >
-                <Text size='small'>
+                <Text size='15px'>
                     Pay
                 </Text>
-                <Text size='small'>
-                    Balance: 0
-                </Text>
+                <UserBalance tokenAddress={tokenFrom.address}/>
+                
             </Box>
             <Box
                 direction='row'

@@ -3,16 +3,17 @@ import { Box, Text, Select } from "grommet";
 import { useEffect, useState } from 'preact/hooks';
 import { useDispatch, useStore } from '../hooks';
 import { actions, initialList } from '../constants';
+import { UserBalance } from "./UserBalance";
 
 
 
 const TokenTo = () => {
-    const { tokenTo, amountTo, tokenList} = useStore();
+    const { tokenTo, amountTo, tokenList } = useStore();
     const dispatch = useDispatch();
     const [options, setOptions] = useState(initialList);
 
     const [listToken, setTokenList] = useState([]);
-    
+
     useEffect(() => {
         setTokenList(tokenList)
         setOptions(tokenList)
@@ -25,12 +26,10 @@ const TokenTo = () => {
                 align='center'
                 pad={{ horizontal: 'small' }}
             >
-                <Text size='small'>
+                <Text size='15px'>
                     Receive (Estimated)
                 </Text>
-                <Text size='small'>
-                    Balance: 0
-                </Text>
+                <UserBalance tokenAddress={tokenTo.address} />
             </Box>
             <Box
                 direction='row'
@@ -63,7 +62,7 @@ const TokenTo = () => {
                 />
                 <Box width='390px' pad={{ right: 'medium' }}>
                     <Text
-                        textAlign= 'end'
+                        textAlign='end'
                         size='small'
                     >
                         {amountTo}
