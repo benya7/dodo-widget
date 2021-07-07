@@ -9,7 +9,7 @@ import { useWeb3React } from '@web3-react/core';
 import { sendTradeEthBase, sendTradeTokenBase } from '../services/tradeHandler';
 
 const PanelTrade = () => {
-    const { tokenFrom, tokenTo, amountTo, amountFrom, dodoRequest, availableReq, tradeRequest, pricePerFromToken } = useStore()
+    const { tokenFrom, tokenTo, amountTo, amountFrom, dodoRequest, availableReq, tradeRequest, pricePerFromToken, equalTokens } = useStore()
     const { account } = useWeb3React()
     const signer = useSigner()
 
@@ -20,9 +20,11 @@ const PanelTrade = () => {
                 <TokenTo />
             </Box>
             <Box align='center' gap='small'>
-                <Text size='small'>
-                    1 {tokenFrom.symbol} = {pricePerFromToken} {tokenTo.symbol}
-                </Text>
+                {pricePerFromToken && equalTokens !== true && (
+                    <Text size='small'>
+                        1 {tokenFrom.symbol} = {pricePerFromToken} {tokenTo.symbol}
+                    </Text>
+                )}
                 {!availableReq && amountFrom > 0 ? (
                     <Box background='dark-3' pad={{ vertical: 'xsmall', horizontal: 'small' }} round='small' aling='center' justify='center'>
                         <Text size='xsmall'>
@@ -30,7 +32,7 @@ const PanelTrade = () => {
                         </Text>
                     </Box>
                 )
-                : ''}
+                    : ''}
 
                 <Button label='Confirm Order' disabled={!availableReq ? true : false} onClick={() => {
                     if (tokenFrom !== '' && tokenFrom === nativeTokenAdress && signer) {
@@ -69,7 +71,7 @@ const PanelTrade = () => {
                         <TipTrade text={minReceivedTip} />
                     </Box>
                     <Text size='small'>
-                        {!availableReq && amountFrom > 0 ? <Spinner size='1px' /> : <Text textAlign='end' size='small' > {amountTo}</Text>}
+                        {!availableReq && amountFrom > 0 ? <Spinner size='1px' /> : equalTokens !== true ? <Text textAlign='end' size='small' > {amountTo}</Text> : ''}
                     </Text>
                 </Box>
 

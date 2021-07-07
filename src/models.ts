@@ -93,5 +93,5 @@ export interface TradeState {
     tradeRequest: RParams;
     tokenList: Array<IToken>;
     availableReq: boolean;
-    
+    equalTokens: boolean;
 }

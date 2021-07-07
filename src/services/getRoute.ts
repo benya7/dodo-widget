@@ -11,7 +11,9 @@ export const getRoute = async (service: any, params: any): Promise<any> => {
     } catch (error) {
         console.log(error);
 
-        getRoute(service, params)
+        getRoute(service, params).then(() => {
+            return
+        })
 
     }
 }

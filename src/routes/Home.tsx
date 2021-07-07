@@ -11,12 +11,21 @@ import { getNetworkAlias } from '../services/getNetworkAlias';
 import { getRoute } from '../services/getRoute';
 import { parseAmount } from '../services/tradeHandler';
 
+
+const timer = async (ms: any) => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve
+        }, ms)
+    })
+}
+
 const Home = () => {
 
     const service = useService();
     const dispatch = useDispatch();
     const { account, chainId } = useWeb3React();
-    const { tokenTo, tokenFrom, amountFrom, dodoRequest } = useStore();
+    const { tokenTo, tokenFrom, amountFrom, dodoRequest, equalTokens } = useStore();
     const store = useStore();
     const [alias, setAlias] = useState<string | null>(null)
     const [rpc, setRpc] = useState<string | null>(null)
@@ -46,11 +55,6 @@ const Home = () => {
     }, [tokenTo, tokenFrom, amountFrom, account, chainId])
 
     useEffect(() => {
-        console.log(store)
-
-    }, [store])
-
-    useEffect(() => {
         getNetworkAlias(chainId, setAlias, setRpc)
     }, [chainId])
 
@@ -67,36 +71,32 @@ const Home = () => {
         })
     }, [rpc, alias])
 
+    useEffect(() => {
+        if (tokenFrom.symbol !== tokenTo.symbol) {
+            dispatch({ type: actions.setEqualTokens, payload: false})
+        } else {
+            dispatch({ type: actions.setEqualTokens, payload: true})
+        }
+    }, [tokenTo, tokenFrom])
 
     useEffect(() => {
-        if (
-            tokenFrom.address !== '' &&
-            tokenTo.address !== '' &&
-            amountFrom > 0
-        ) {
+        if (equalTokens !== true && tokenFrom.address !== '' && tokenTo.address !== '' && amountFrom > 0) {
             dispatch({ type: actions.setAvailableReq, payload: false })
             getRoute(service, dodoRequest).then((result) => {
-                const { resPricePerFromToken, resAmount, targetApproveAddr, to, data} = result
-                
-                dispatch({ type: actions.setPricePerFromToken, payload: resPricePerFromToken })
-                dispatch({ type: actions.setAmountTo, payload: resAmount })
-                dispatch({
-                    type: actions.setTradeRequest, payload: {
-                        targetApprove: targetApproveAddr,
-                        proxyAddress: to,
-                        requestData: data
-                    }
-                })
-                
-                setTimeout(() => {
-                    dispatch({ type: actions.setAvailableReq, payload: true }) 
-                }, 800);
-                
+                const { resPricePerFromToken, resAmount, targetApproveAddr, to, data } = result
+
+                if (resPricePerFromToken && resAmount && to && data) {
+                    dispatch({ type: actions.setPricePerFromToken, payload: resPricePerFromToken })
+                    dispatch({ type: actions.setAmountTo, payload: resAmount })
+                    dispatch({ type: actions.setTradeRequest, payload: { targetApprove: targetApproveAddr, proxyAddress: to, requestData: data } })
+                    dispatch({ type: actions.setAvailableReq, payload: true })
+                }
+
+            }).catch((error) => {
+                dispatch({ type: actions.setAmountTo, payload: null })
             })
-        } else {
-            return
         }
-    }, [tokenTo, tokenFrom, dodoRequest, account, chainId])
+    }, [tokenFrom, dodoRequest, account, chainId])
 
     return (
         <Box>
