@@ -3,9 +3,10 @@ import { Box, Button, Text } from "grommet";
 import TokenFrom from './TokenFrom';
 import TokenTo from './TokenTo';
 import { useEffect, useState } from 'preact/hooks';
+import { useStore } from '../hooks';
 
 const PanelTrade = () => {
-    
+    const { amountFrom, dodoRequest } = useStore()
     return (
         <Box pad={{ top: 'small', bottom: 'xsmall', horizontal: 'medium' }} gap='medium'>
             <Box gap='small'>
@@ -28,7 +29,7 @@ const PanelTrade = () => {
                         Slippage Tolerance?:
                     </Text>
                     <Text size='small'>
-                        3.0
+                        {dodoRequest.slippage}%
                     </Text>
                 </Box>
                 <Box direction='row' justify='between'>
@@ -36,7 +37,7 @@ const PanelTrade = () => {
                         Minimun Received?:
                     </Text>
                     <Text size='small'>
-                        2500.23
+                        {amountFrom}
                     </Text>
                 </Box>
                 <Box direction='row' justify='between'>

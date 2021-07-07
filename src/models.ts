@@ -85,7 +85,7 @@ interface RParams {
 export interface TradeState {
     tokenFrom: IToken,
     tokenTo: IToken,
-    amountFrom: string;
+    amountFrom: number;
     amountTo: string;
     dodoRequest: DodoRequest;
     tradeRequest: RParams;

@@ -115,13 +115,13 @@ const WalletSelector = ({ checked }: any) => {
 const ModalWallets = ({ checked, setShow, network }: IProps) => {
     const { chainId, library } = useWeb3React()
     const [reqLoad, setReqLoad] = useState(false)
-
     useEffect(() => {
         if (chainId) {
-            const params = getParams(chainId, network);
+            const params: any = getParams(chainId, network);
 
             if (params) {
                 setReqLoad(true)
+
                 switchChain(params, library).then(() => {
                     setReqLoad(false)
                     setShow(false)

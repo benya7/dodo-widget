@@ -4,51 +4,25 @@ import ModalConnect from '../components/ModalConnect';
 import { Box, Button } from 'grommet';
 import PanelTrade from '../components/PanelTrade';
 import { useDispatch, useStore, useService } from '../hooks';
-import { actions, Networks } from '../constants';
+import { actions } from '../constants';
 
 import { DodoRequest } from '../models';
 import { useWeb3React } from '@web3-react/core';
 import { getListTokens } from '../services/getListTokens';
-
-// const getRoute = async (service: any, params: any): Promise<any> => {
-//     try {
-//         const result = await service.getDodoRoute(params);
-//         if (result.status !== 200) {
-//             throw new Error(result.data);
-//         }
-//         return result.data
-//     } catch (error) {
-//         console.log(error);
-
-//         getRoute(service, params)
-
-//     }
-// }
-
-const getNetworkAlias = (chainId: number | undefined, setAlias: (alias: string) => void) => {
-    let alias: string;
-    for (let i = 0; i < Networks.length; i++) {
-        const matched: boolean = Networks[i].id === chainId;
-        if (!matched) {
-            continue
-        }
-        if (matched) {
-            setAlias(Networks[i].aliasApi)
-        }
-    }
-
-}
-
+import { getNetworkAlias } from '../services/getNetworkAlias';
+import { getRoute } from '../services/getRoute';
 const Home = () => {
 
     const service = useService();
     const dispatch = useDispatch();
     const { account, chainId } = useWeb3React();
-    const { tokenTo, tokenFrom, amountFrom, amountTo, dodoResquest, tokenList } = useStore();
+    const { tokenTo, tokenFrom, amountFrom, amountTo, dodoRequest, tokenList } = useStore();
     const store = useStore();
     const [alias, setAlias] = useState<string | null>(null)
-
+    const [rpc, setRpc] = useState<string | null>(null)
+    const amount: string = (amountFrom * 10 ** tokenFrom.decimals).toString()
     useEffect(() => {
+        
         dispatch({
             type: actions.setDodoRequest,
             payload: {
@@ -56,48 +30,61 @@ const Home = () => {
                 fromTokenDecimals: tokenFrom.decimals,
                 toTokenAddress: tokenTo.address,
                 toTokenDecimals: tokenTo.decimals,
-                fromAmount: amountFrom,
+                fromAmount: amount,
                 userAddr: account,
                 chainId: chainId
 
             }
         })
-
-        // getRoute(service, dodoResquest).then((data) => {
-        //     dispatch({
-        //         type: actions.setTradeRequest, payload: {
-        //             targetApprove: data.targetApproveAddr,
-        //             proxyAddress: data.to,
-        //             requestData: data.data
-        //         }
-        //     })
-        //     dispatch({
-        //         type: actions.setAmountTo, payload: data.resAmount
-        //     }
-        //     )
-        // })
-
-    }, [tokenTo, tokenFrom, amountFrom, account, chainId])
+    }, [tokenTo, tokenFrom, amount, account, chainId])
 
     useEffect(() => {
         console.log(store)
+        
     }, [store])
 
     useEffect(() => {
-        getNetworkAlias(chainId, setAlias)
+        getNetworkAlias(chainId, setAlias, setRpc)
     }, [chainId])
 
     useEffect(() => {
         if (!account) {
             return
         }
+        dispatch({ type: actions.setDodoRequest, payload: { rpc: rpc }})
         getListTokens(alias).then((tokens) => {
             dispatch({
                 type: actions.setTokenList,
                 payload: tokens
             })
         })
-    }, [alias])
+    }, [rpc, alias])
+
+
+    useEffect(() => {
+        if(
+            tokenFrom.address !== '' &&
+            tokenTo.address !== '' &&
+            amountFrom !== 0 &&
+            amountFrom !== 1
+        ) {
+            getRoute(service, dodoRequest).then((data) => {
+                dispatch({
+                    type: actions.setTradeRequest, payload: {
+                        targetApprove: data.targetApproveAddr,
+                        proxyAddress: data.to,
+                        requestData: data.data
+                    }
+                })
+                dispatch({
+                    type: actions.setAmountTo, payload: data.resAmount
+                }
+                )
+            })
+        } else {
+            return
+        }
+    }, [tokenTo, tokenFrom, account, chainId])
 
     return (
         <Box>

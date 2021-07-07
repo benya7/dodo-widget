@@ -14,7 +14,7 @@ export const tradeStore: TradeState = {
         address: '',
         decimals: 0
     },
-    amountFrom: '',
+    amountFrom: 0,
     amountTo: '0',
     dodoRequest: {
         fromTokenAddress: '',
