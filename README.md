@@ -60,13 +60,14 @@ type Color = 'brand' | 'accent-1' | 'accent-' | 'accent-3' | 'accent-4' | 'neutr
 ```
 
 
-## This is the ID of the HTML element where the widget is to be rendered.
+### This is the ID of the HTML element where the widget is to be rendered.
 
 ```typescript
 type TargetElement: string
+
 ```
 
-## This interface represents the 'style' property of the configuration object
+### This interface represents the 'style' property of the configuration object
 
 ```typescript
 interface Style {
@@ -80,7 +81,7 @@ interface Style {
 }
 ```
 
-## This interface represents the Configuration object
+### This interface represents the Configuration object
 
 ```typescript
 interface AppConfigurations {
@@ -92,5 +93,5 @@ interface AppConfigurations {
 ```
 
 
-## License
+### License
 The source and documentation in this project are released under the [MIT License](LICENSE)
