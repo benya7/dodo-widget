@@ -8,11 +8,10 @@ import Home from '../routes/Home';
 
 const Main = () => {
     const config = useContext(ConfigContext);
-
     return (
         <Grommet theme={theme}>
             <Box >
-                <Box pad={{vertical: 'small'}} round='medium' alignSelf='center' background='dark-1' height='500px' width='medium'>
+                <Box {...config.style}>
                     <Router
                         routes={{
                             '/': <RouteComponent component={Home} />

@@ -5,8 +5,15 @@ interface InfraConfigurations {
 export interface AppConfigurations {
     debug: boolean;
     dodoBaseUrl: string;
-    cGeckoBaseUrl: string;
     targetId: string;
+    style: {
+        pad?: string | {};
+        round?: string;
+        alignSelf?: string;
+        width?: string;
+        height?: string;
+        background?: string;
+    }
 }
 
 export type Configurations = InfraConfigurations & AppConfigurations;

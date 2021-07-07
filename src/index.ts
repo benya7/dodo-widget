@@ -10,8 +10,15 @@ import { Configurations } from './models';
 const defaultConfig: Configurations = {
     debug: false,
     dodoBaseUrl: 'https://dodo-route.dodoex.io/dodoapi',
-    cGeckoBaseUrl: '',
-    targetId: ''
+    targetId: '',
+    style: {
+        pad: { vertical: 'small' },
+        round: 'medium',
+        alignSelf: 'center',
+        width: 'medium',
+        height: '500px',
+        background: 'dark-1'
+    }
 };
 
 // main entry point - calls loader and render Preact app into supplied element
