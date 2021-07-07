@@ -76,7 +76,9 @@ const Home = () => {
         ) {
             dispatch({ type: actions.setAvailableReq, payload: false })
             getRoute(service, dodoRequest).then((result) => {
-                const { resAmount, targetApproveAddr, to, data} = result
+                const { resPricePerFromToken, resAmount, targetApproveAddr, to, data} = result
+                
+                dispatch({ type: actions.setPricePerFromToken, payload: resPricePerFromToken })
                 dispatch({ type: actions.setAmountTo, payload: resAmount })
                 dispatch({
                     type: actions.setTradeRequest, payload: {

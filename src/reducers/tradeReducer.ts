@@ -16,6 +16,7 @@ export const tradeStore: TradeState = {
     },
     amountFrom: null,
     amountTo: '0',
+    pricePerFromToken: null,
     dodoRequest: {
         fromTokenAddress: '',
         fromTokenDecimals: 0,
@@ -97,6 +98,11 @@ const tradeReducer = (state: any, action: any) => {
         case actions.setInitalStore:
             return {
                 ...action.payload
+            }
+        case actions.setPricePerFromToken:
+            return {
+                ...state,
+                pricePerFromToken: action.payload
             }
         default:
             return state;

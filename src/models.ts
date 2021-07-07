@@ -87,6 +87,7 @@ export interface TradeState {
     tokenFrom: IToken,
     tokenTo: IToken,
     amountFrom: number | null;
+    pricePerFromToken: number | null;
     amountTo: string;
     dodoRequest: DodoRequest;
     tradeRequest: RParams;

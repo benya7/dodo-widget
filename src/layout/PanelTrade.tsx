@@ -9,7 +9,7 @@ import { useWeb3React } from '@web3-react/core';
 import { sendTradeEthBase, sendTradeTokenBase } from '../services/tradeHandler';
 
 const PanelTrade = () => {
-    const { tokenFrom, amountTo, amountFrom, dodoRequest, availableReq, tradeRequest } = useStore()
+    const { tokenFrom, tokenTo, amountTo, amountFrom, dodoRequest, availableReq, tradeRequest, pricePerFromToken } = useStore()
     const { account } = useWeb3React()
     const signer = useSigner()
 
@@ -21,14 +21,19 @@ const PanelTrade = () => {
             </Box>
             <Box align='center' gap='small'>
                 <Text size='small'>
-                    1 ETH = 2554.545544 USDC
+                    1 {tokenFrom.symbol} = {pricePerFromToken} {tokenTo.symbol}
                 </Text>
-                <Text size='small'>
-                    fetching bests prices
-                </Text>
+                {!availableReq && amountFrom > 0 ? (
+                    <Box background='dark-3' pad={{ vertical: 'xsmall', horizontal: 'small' }} round='small' aling='center' justify='center'>
+                        <Text size='xsmall'>
+                            fetching data prices..
+                        </Text>
+                    </Box>
+                )
+                : ''}
 
                 <Button label='Confirm Order' disabled={!availableReq ? true : false} onClick={() => {
-                    if(tokenFrom !== '' && tokenFrom === nativeTokenAdress && signer) {
+                    if (tokenFrom !== '' && tokenFrom === nativeTokenAdress && signer) {
                         sendTradeEthBase(tradeRequest, account, signer).then((result) => {
                             console.log(result)
                         })
@@ -40,7 +45,7 @@ const PanelTrade = () => {
                         })
                     }
 
-                }}/>
+                }} />
             </Box>
             <Box gap='small'>
                 <Box direction='row' justify='between'>
@@ -64,7 +69,7 @@ const PanelTrade = () => {
                         <TipTrade text={minReceivedTip} />
                     </Box>
                     <Text size='small'>
-                    {!availableReq && amountFrom > 0 ? <Spinner size='1px' /> : <Text textAlign='end' size='small' > {amountTo}</Text>}
+                        {!availableReq && amountFrom > 0 ? <Spinner size='1px' /> : <Text textAlign='end' size='small' > {amountTo}</Text>}
                     </Text>
                 </Box>
 
