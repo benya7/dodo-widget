@@ -104,15 +104,15 @@ const PanelTrade = () => {
                 </Box>
             }
             {tradeSuccess &&
-                <Box>
-                    <Text>The swap was successful!</Text>
-                    <Anchor href={`${explorerUrl}/tx/${hashTx}`} label={hashTx} target='_blank'/>
+                <Box align='center' justify='center'>
+                    <Text size='small'>The swap was successful!</Text>
+                    <Anchor size='small' href={`${explorerUrl}/tx/${hashTx}`} label={hashTx} target='_blank'/>
                 </Box>
             }
             {messageError &&
-                <Box>
-                    <Text>Ha ocurrido un error!</Text>
-                    <Text>{messageError}</Text>
+                <Box align='center' justify='center'>
+                    <Text size='small'>An error has occurred!</Text>
+                    <Text size='small'>{messageError}</Text>
                 </Box>
             }
         </Box>

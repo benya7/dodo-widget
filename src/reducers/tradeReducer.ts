@@ -3,13 +3,13 @@ import { TradeState } from '../models';
 
 export const tradeStore: TradeState = {
     tokenFrom: {
-        name: 'ETH',
+        name: '',
         symbol: '',
         address: '',
         decimals: 0
     },
     tokenTo: {
-        name: 'USDC',
+        name: '',
         symbol: '',
         address: '',
         decimals: 0

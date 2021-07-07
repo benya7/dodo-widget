@@ -41,8 +41,7 @@ const TokenTo = () => {
             >
                 <Select
                     size="small"
-                    defaultValue={tokenTo.name}
-                    placeholder="Select Token"
+                    placeholder="Choose"
                     options={options}
                     labelKey='symbol'
                     valueKey={{ key: 'symbol', reduce: true }}

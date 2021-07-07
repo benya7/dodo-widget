@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo page of the widget</title>
+</head>
+
+<body>
+    
+    <div>
+        <h1>Este es un div</h1>
+        <div>
+            <h2>
+                Este es un div interior
+                <div id='widget-dodo'></div>
+            </h2>
+        </div>
+    </div>
+    <h2>The shown widget is for demonstration purpose only</h2>
+    <script>
+        (function (w, d, s, o, f, js, fjs) {
+            w[o] = w[o] || function () { (w[o].q = w[o].q || []).push(arguments) };
+            js = d.createElement(s), fjs = d.getElementsByTagName(s)[0];
+            js.id = o; js.src = f; js.async = 1; fjs.parentNode.insertBefore(js, fjs);
+        }(window, document, 'script', '_hw', './widget.js'));
+        _hw('init', { debug: true, targetId: 'widget-dodo' });
+    </script>
+    
+
+</body>
+
+</html>
