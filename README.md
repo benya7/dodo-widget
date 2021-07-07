@@ -50,13 +50,13 @@ interface Slides {
         right?: string
         }
 
-type Size: string = 'xsmall' | 'small' | 'medium ' | 'large' | 'any value in px'
+type Size = 'xsmall' | 'small' | 'medium ' | 'large' | 'any value in px'
 
-type SizeExtends: string = 'xxsmall' | 'xsmall' | 'small' | 'medium ' | 'large' | 'xlarge' | 'xxlarge' | 'any value in px'
+type SizeExtends = 'xxsmall' | 'xsmall' | 'small' | 'medium ' | 'large' | 'xlarge' | 'xxlarge' | 'any value in px'
 
-type Position: string = 'start' | 'center' | 'baseline' | 'stretch'
+type Position = 'start' | 'center' | 'baseline' | 'stretch'
 
-type Color: string = 'brand' | 'accent-1' | 'accent-' | 'accent-3' | 'accent-4' | 'neutral-1' | 'neutral-2' | 'neutral-3' | 'neutral-4' | 'status-critical' | 'status-error' | 'status-warning' | 'status-ok' | 'status-unknown' | 'status-disabled' | 'light-1' | 'light-2' | 'light-3' | 'light-4' | 'light-5' | 'light-6' | 'dark-1' | 'dark-2' | 'dark-3' | 'dark-4' | 'dark-5' | 'dark- 6'
+type Color = 'brand' | 'accent-1' | 'accent-' | 'accent-3' | 'accent-4' | 'neutral-1' | 'neutral-2' | 'neutral-3' | 'neutral-4' | 'status-critical' | 'status-error' | 'status-warning' | 'status-ok' | 'status-unknown' | 'status-disabled' | 'light-1' | 'light-2' | 'light-3' | 'light-4' | 'light-5' | 'light-6' | 'dark-1' | 'dark-2' | 'dark-3' | 'dark-4' | 'dark-5' | 'dark- 6'
 ```
 
 

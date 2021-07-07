@@ -68,6 +68,20 @@ const Home = () => {
                 type: actions.setTokenList,
                 payload: tokens
             })
+        }).catch((error) => {
+            console.log(error)
+            dispatch({
+                type: actions.setTokenList,
+                payload: []
+            })
+            getListTokens(alias).then((tokens) => {
+                dispatch({
+                    type: actions.setTokenList,
+                    payload: tokens
+                })
+            }).catch(() => {
+                return
+            })
         })
     }, [rpc, alias])
 
