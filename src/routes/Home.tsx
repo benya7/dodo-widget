@@ -11,6 +11,16 @@ import { useWeb3React } from '@web3-react/core';
 import { getListTokens } from '../services/getListTokens';
 import { getNetworkAlias } from '../services/getNetworkAlias';
 import { getRoute } from '../services/getRoute';
+
+
+const parseAmount = (amountFrom: number, tokenFrom: any): Promise<string> => {
+    return new Promise((resolve) => {
+        const amount: string = (amountFrom * 10 ** tokenFrom.decimals).toString()
+        resolve(amount)
+
+    })
+}
+
 const Home = () => {
 
     const service = useService();
@@ -20,23 +30,25 @@ const Home = () => {
     const store = useStore();
     const [alias, setAlias] = useState<string | null>(null)
     const [rpc, setRpc] = useState<string | null>(null)
-    const amount: string = (amountFrom * 10 ** tokenFrom.decimals).toString()
+
     useEffect(() => {
+        parseAmount(amountFrom, tokenFrom).then((amount) => {
+            dispatch({
+                type: actions.setDodoRequest,
+                payload: {
+                    fromTokenAddress: tokenFrom.address,
+                    fromTokenDecimals: tokenFrom.decimals,
+                    toTokenAddress: tokenTo.address,
+                    toTokenDecimals: tokenTo.decimals,
+                    fromAmount: amount,
+                    userAddr: account,
+                    chainId: chainId
 
-        dispatch({
-            type: actions.setDodoRequest,
-            payload: {
-                fromTokenAddress: tokenFrom.address,
-                fromTokenDecimals: tokenFrom.decimals,
-                toTokenAddress: tokenTo.address,
-                toTokenDecimals: tokenTo.decimals,
-                fromAmount: amount,
-                userAddr: account,
-                chainId: chainId
-
-            }
+                }
+            })
         })
-    }, [tokenTo, tokenFrom, amount, account, chainId])
+
+    }, [tokenTo, tokenFrom, amountFrom, account, chainId])
 
     useEffect(() => {
         console.log(store)
@@ -65,36 +77,30 @@ const Home = () => {
         if (
             tokenFrom.address !== '' &&
             tokenTo.address !== '' &&
-            amountFrom !== 0 &&
-            amountFrom !== 1
+            amountFrom > 0
         ) {
-            setTimeout(() => {
-                getRoute(service, dodoRequest).then((data) => {
-                    dispatch({
-                        type: actions.setTradeRequest, payload: {
-                            targetApprove: data.targetApproveAddr,
-                            proxyAddress: data.to,
-                            requestData: data.data
-                        }
-                    })
-                    dispatch({
-                        type: actions.setAmountTo, payload: data.resAmount
+            getRoute(service, dodoRequest).then((data) => {
+                dispatch({
+                    type: actions.setTradeRequest, payload: {
+                        proxyAddress: data.to,
+                        requestData: data.data
                     }
-                    )
                 })
-            }, 1500);
+                dispatch({ type: actions.setAmountTo, payload: data.resAmount })
+                
+            })
         } else {
             return
         }
-    }, [tokenTo, tokenFrom, amount, account, chainId])
+    }, [tokenTo, tokenFrom, dodoRequest, account, chainId])
 
     return (
         <Box>
             <Box direction='row' gap='small' alignSelf='end' pad='small'>
                 <ModalConnect />
-                <Button label='console' onClick={() => {
+                {/* <Button label='console' onClick={() => {
                     console.log(library.getSigner())
-                }} />
+                }} /> */}
             </Box>
             <PanelTrade />
         </Box>

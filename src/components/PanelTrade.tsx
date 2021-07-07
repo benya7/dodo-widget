@@ -6,7 +6,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { useStore } from '../hooks';
 
 const PanelTrade = () => {
-    const { amountFrom, dodoRequest } = useStore()
+    const { amountTo, dodoRequest } = useStore()
     return (
         <Box pad={{ top: 'small', bottom: 'xsmall', horizontal: 'medium' }} gap='medium'>
             <Box gap='small'>
@@ -37,17 +37,10 @@ const PanelTrade = () => {
                         Minimun Received?:
                     </Text>
                     <Text size='small'>
-                        {amountFrom}
+                        {amountTo}
                     </Text>
                 </Box>
-                <Box direction='row' justify='between'>
-                    <Text size='small'>
-                        Estimated Network Fee
-                    </Text>
-                    <Text size='small'>
-                        $30.45
-                    </Text>
-                </Box>
+                
             </Box>
         </Box>
     )
