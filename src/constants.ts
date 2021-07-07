@@ -38,7 +38,8 @@ export const actions = {
   setInitalStore: 'set-initial-store',
   setPricePerFromToken: 'set-price-per-from-token',
   setEqualTokens: 'set-equal-tokens',
-  setFetchPriceLoad: 'set-fetch-price-load'
+  setFetchPriceLoad: 'set-fetch-price-load',
+  setExplorerUrl: 'set-explorer-url'
 }
 
 export const Networks: Array<INetwork> = [

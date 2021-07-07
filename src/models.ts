@@ -101,5 +101,6 @@ export interface TradeState {
     tokenList: Array<IToken>;
     availableReq: boolean;
     equalTokens: boolean;
-    fetchPriceLoad: boolean
+    fetchPriceLoad: boolean;
+    explorerUrl: string
 }

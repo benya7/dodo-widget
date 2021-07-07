@@ -45,7 +45,7 @@ const Home = () => {
     }, [tokenTo, tokenFrom, amountFrom, account, chainId])
 
     useEffect(() => {
-        getNetworkAlias(chainId, setAlias, setRpc)
+        getNetworkAlias(chainId, setAlias, setRpc, dispatch)
     }, [chainId])
 
     useEffect(() => {
