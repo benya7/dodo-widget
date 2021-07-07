@@ -60,7 +60,7 @@ const TokenTo = () => {
                         setOptions(listToken.filter((o: any) => exp.test(o.symbol)));
                     }}
                 />
-                <Box width='390px' pad={{ right: 'medium' }} align='end' alignContent='end' justify='end'>
+                <Box width='390px' pad={{ right: 'medium' }} align='end'>
                 {!availableReq && amountFrom > 0 ? <Spinner size='1px' /> : <Text textAlign='end' size='medium' > {amountTo}</Text>}
                     
                 </Box>
