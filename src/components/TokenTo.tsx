@@ -1,22 +1,22 @@
 import { h } from "preact";
 import { Box, Text, Select } from "grommet";
 import { useEffect, useState } from 'preact/hooks';
-import { getListTokens, useDispatch, useStore } from '../hooks';
+import { useDispatch, useStore } from '../hooks';
 import { actions, initialList } from '../constants';
 
 
 
 const TokenTo = () => {
-    const { tokenTo, amountTo } = useStore();
+    const { tokenTo, amountTo, tokenList} = useStore();
     const dispatch = useDispatch();
     const [options, setOptions] = useState(initialList);
-    const [tokenList, setTokenList] = useState([]);
+
+    const [listToken, setTokenList] = useState([]);
+    
     useEffect(() => {
-        getListTokens('mainnet').then((tokens) => {
-            setTokenList(tokens)
-            setOptions(tokens)
-        })
-    }, [])
+        setTokenList(tokenList)
+        setOptions(tokenList)
+    }, [tokenList])
     return (
         <Box gap='xsmall'>
             <Box
@@ -48,7 +48,7 @@ const TokenTo = () => {
                     labelKey='symbol'
                     valueKey={{ key: 'symbol', reduce: true }}
                     onChange={({ option }: any) => dispatch({ type: actions.setTokenTo, payload: option })}
-                    onClose={() => setOptions(tokenList)}
+                    onClose={() => setOptions(listToken)}
                     onSearch={(text: any) => {
                         // The line below escapes regular expression special characters:
                         // [ \ ^ $ . | ? * + ( )
@@ -58,7 +58,7 @@ const TokenTo = () => {
                         // handles escaping special characters. Without escaping special
                         // characters, errors will appear in the console
                         const exp = new RegExp(escapedText, 'i');
-                        setOptions(tokenList.filter((o: any) => exp.test(o.symbol)));
+                        setOptions(listToken.filter((o: any) => exp.test(o.symbol)));
                     }}
                 />
                 <Box width='390px' pad={{ right: 'medium' }}>

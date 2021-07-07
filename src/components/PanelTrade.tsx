@@ -2,15 +2,10 @@ import { h } from 'preact';
 import { Box, Button, Text } from "grommet";
 import TokenFrom from './TokenFrom';
 import TokenTo from './TokenTo';
-import { getListTokens } from '../hooks';
 import { useEffect, useState } from 'preact/hooks';
 
 const PanelTrade = () => {
-    const [tokenList, setTokenList] = useState<any>([])
-    useEffect(() => {
-        getListTokens('mainnet').then(result => setTokenList(result))
-        
-    }, [])
+    
     return (
         <Box pad={{ top: 'small', bottom: 'xsmall', horizontal: 'medium' }} gap='medium'>
             <Box gap='small'>

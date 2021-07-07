@@ -1,21 +1,20 @@
 import { h } from "preact";
 import { Box, TextInput, Text, Select } from "grommet";
 import { useEffect, useState } from 'preact/hooks';
-import { getListTokens, useDispatch, useStore } from '../hooks';
+import { useDispatch, useStore } from '../hooks';
 import { actions, initialList } from '../constants';
 
 const TokenFrom = () => {
-    const { tokenFrom, amountFrom } = useStore();
+    const { tokenFrom, amountFrom, tokenList} = useStore();
     const dispatch = useDispatch();
     const [options, setOptions] = useState(initialList);
 
-    const [tokenList, setTokenList] = useState([]);
+    const [listToken, setTokenList] = useState([]);
+    
     useEffect(() => {
-        getListTokens('mainnet').then((tokens) => {
-            setTokenList(tokens)
-            setOptions(tokens)
-        })
-    }, [])
+        setTokenList(tokenList)
+        setOptions(tokenList)
+    }, [tokenList])
     return (
         <Box gap='xsmall'>
             <Box
@@ -46,7 +45,7 @@ const TokenFrom = () => {
                     labelKey='symbol'
                     valueKey={{ key: 'symbol', reduce: true }}
                     onChange={({ option }: any) => dispatch({ type: actions.setTokenFrom, payload: option })}
-                    onClose={() => setOptions(tokenList)}
+                    onClose={() => setOptions(listToken)}
                     onSearch={(text: any) => {
                         // The line below escapes regular expression special characters:
                         // [ \ ^ $ . | ? * + ( )
@@ -56,7 +55,7 @@ const TokenFrom = () => {
                         // handles escaping special characters. Without escaping special
                         // characters, errors will appear in the console
                         const exp = new RegExp(escapedText, 'i');
-                        setOptions(tokenList.filter((o: any) => exp.test(o.symbol)));
+                        setOptions(listToken.filter((o: any) => exp.test(o.symbol)));
                     }}
                 />
                 <Box width='380px' pad={{ right: 'small' }}>
