@@ -11,7 +11,7 @@ In order to embed the widget add the following snippet at any location on the ho
         js = d.createElement(s), fjs = d.getElementsByTagName(s)[0];
         js.id = o; js.src = f; js.async = 1; fjs.parentNode.insertBefore(js, fjs);
     }(window, document, 'script', '_hw', './widget.js'));
-    _hw('init');
+    _hw('init', { targetId: 'widget-dodo' });
 </script>
 ```
 
@@ -20,7 +20,7 @@ During initialization you can pass additional configurations to widget like so:
 
 ```diff
 -_hw('init');
-+_hw('init', { debug: true });
++_hw('init', { debug: true, targetId: 'widget-dodo' });
 ```
 
 ## Develop
