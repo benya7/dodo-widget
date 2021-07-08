@@ -17,6 +17,7 @@ const PanelTrade = () => {
     const [tradeSuccess, setTradeSuccess] = useState(false)
     const [tradeError, setTradeError] = useState(false)
     const [messageError, setMessageError] = useState('')
+    const [requesting, setRequesting] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -52,16 +53,19 @@ const PanelTrade = () => {
                     </Box>
                 }
 
-                <Button primary label='Confirm Order' disabled={!availableReq ? true : false} onClick={() => {
+                <Button primary label='Confirm Order' disabled={availableReq !== false && requesting !== true ? false : true} onClick={() => {
+                    setRequesting(true)
                     if (tokenFrom !== '' && tokenFrom === nativeTokenAdress && signer) {
                         dispatch({ type: actions.setAvailableReq, payload: false })
                         sendTradeEthBase(tradeRequest, account, signer).then((result) => {
                             setHashTx(result.hash)
                             setTradeSuccess(true)
+                            setRequesting(false)
                         })
                             .catch((error) => {
                                 setTradeError(true)
                                 setMessageError(error)
+                                setRequesting(false)
                             })
                     }
 
@@ -70,10 +74,12 @@ const PanelTrade = () => {
                             let _hash = `${result.hash.substring(0, 9)}...${result.hash.substring(result.hash.length - 8)}`
                             setHashTx(_hash)
                             setTradeSuccess(true)
+                            setRequesting(false)
                         })
                             .catch((error) => {
                                 setTradeError(true)
                                 setMessageError(error.toString())
+                                setRequesting(false)
                             })
                     }
 
