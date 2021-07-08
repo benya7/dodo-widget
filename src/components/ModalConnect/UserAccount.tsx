@@ -8,7 +8,7 @@ const UserAccount = () => {
     const { explorerUrl } = useStore();
     return (
         <Box direction='row' alignSelf='end' align='center' justify='center' gap='small'>
-            <Anchor size='small' href={`${explorerUrl}/address/${account}`} label={
+            <Anchor target='_blank' size='small' href={`${explorerUrl}/address/${account}`} label={
                     account ?
                         `${account.substring(0, 6)}...${account.substring(account.length - 4)}` : ''
                 } />
