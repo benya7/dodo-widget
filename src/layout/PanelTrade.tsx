@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Box, Button, Text, Anchor} from "grommet";
+import { Box, Button, Text, Anchor, Paragraph } from "grommet";
 import TokenFrom from '../components/PanelTrade/TokenFrom';
 import TokenTo from '../components/PanelTrade/TokenTo';
 import { useDispatch, useSigner, useStore } from '../hooks';
@@ -67,7 +67,8 @@ const PanelTrade = () => {
 
                     if (tokenFrom !== '' && tokenFrom !== nativeTokenAdress && signer) {
                         sendTradeTokenBase(tokenFrom, tradeRequest, account, signer).then((result) => {
-                            setHashTx(result.hash)
+                            let _hash = `${result.hash.substring(0, 9)}...${result.hash.substring(result.hash.length - 8)}`
+                            setHashTx(_hash)
                             setTradeSuccess(true)
                         })
                             .catch((error) => {
@@ -105,15 +106,18 @@ const PanelTrade = () => {
                 </Box>
             }
             {tradeSuccess &&
-                <Box align='center' justify='center'>
+                <Box align='center' justify='center' width='400px'>
                     <Text size='small'>The swap was successful!</Text>
-                    <Anchor size='small' href={`${explorerUrl}/tx/${hashTx}`} label={hashTx} target='_blank'/>
+                    <Paragraph>
+                        <Anchor size='small' href={`${explorerUrl}/tx/${hashTx}`} label={hashTx} target='_blank' />
+                    </Paragraph>
+
                 </Box>
             }
             {messageError &&
-                <Box align='center' justify='center'>
+                <Box align='center' justify='center' width='400px'>
                     <Text size='small'>An error has occurred!</Text>
-                    <Text size='small'>{messageError}</Text>
+                    <Paragraph size='small'>{messageError}</Paragraph>
                 </Box>
             }
         </Box>
