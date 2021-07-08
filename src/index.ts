@@ -12,11 +12,10 @@ const defaultConfig: Configurations = {
     dodoBaseUrl: 'https://dodo-route.dodoex.io/dodoapi',
     targetId: '',
     style: {
-        pad: { vertical: 'small' },
+        pad: { vertical: 'small', bottom: 'large'},
         round: 'medium',
         alignSelf: 'center',
         width: 'medium',
-        height: '500px',
         background: 'dark-1'
     }
 };

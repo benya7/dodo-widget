@@ -53,7 +53,8 @@ const PanelTrade = () => {
                     </Box>
                 }
 
-                <Button primary label='Confirm Order' disabled={availableReq !== false && requesting !== true ? false : true} onClick={() => {
+                <Box fill pad={{horizontal: 'xsmall'}}>
+                <Button primary fill label='Confirm Order' disabled={availableReq !== false && requesting !== true ? false : true} onClick={() => {
                     setRequesting(true)
                     if (tokenFrom !== '' && tokenFrom === nativeTokenAdress && signer) {
                         dispatch({ type: actions.setAvailableReq, payload: false })
@@ -84,6 +85,7 @@ const PanelTrade = () => {
                     }
 
                 }} />
+                </Box>
             </Box>
             {account && availableReq &&
                 <Box gap='small'>

@@ -18,7 +18,7 @@ const ModalConnect = () => {
     return (
         <Box>
             <Box pad={{horizontal: 'small'}}>
-                { account ? <UserAccount /> : <Button primary size='xsmall' label="Connect Wallet" onClick={() => setShow(true)} />}
+                { account ? <UserAccount /> : <Button primary size='small' label="Connect Wallet" onClick={() => setShow(true)} />}
             </Box>
             {show && (
                 <Layer
