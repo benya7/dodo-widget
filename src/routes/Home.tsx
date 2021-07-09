@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import ModalConnect from '../layout/ModalConnect';
-import { Box } from 'grommet';
+import { Box, Distribution } from 'grommet';
 import PanelTrade from '../layout/PanelTrade';
 import { useDispatch, useStore, useService } from '../hooks';
 import { actions } from '../constants';
@@ -10,15 +10,21 @@ import { getListTokens } from '../services/getListTokens';
 import { getNetworkAlias } from '../services/getNetworkAlias';
 import { getRoute } from '../services/getRoute';
 import { parseAmount } from '../services/tradeHandler';
+import { tradeStore } from '../reducers/tradeReducer';
 
 const Home = () => {
 
     const service = useService();
     const dispatch = useDispatch();
-    const { account, chainId } = useWeb3React();
+    const web3 = useWeb3React();
+    const store = useStore()
+    const { account, chainId, active } = useWeb3React();
     const { tokenTo, tokenFrom, amountFrom, dodoRequest, equalTokens } = useStore();
     const [alias, setAlias] = useState<string | null>(null)
     const [rpc, setRpc] = useState<string | null>(null)
+    const [currentChainId, setCurrentChainId] = useState<number>(0)
+
+
 
     useEffect(() => {
         parseAmount(amountFrom, tokenFrom).then((amount) => {
@@ -42,11 +48,26 @@ const Home = () => {
             })
         })
 
-    }, [tokenTo, tokenFrom, amountFrom, account, chainId])
+    }, [tokenTo, tokenFrom, amountFrom, account])
 
     useEffect(() => {
-        getNetworkAlias(chainId, setAlias, setRpc, dispatch)
+        if(!chainId) {
+            return
+        } 
+        if (currentChainId > 0 && currentChainId !== chainId) {
+            window.location.reload()
+        }
+        
     }, [chainId])
+
+    useEffect(() => {
+        if(chainId) {
+            setCurrentChainId(chainId)
+        }
+        getNetworkAlias(chainId, setAlias, setRpc, dispatch)
+        console.log(store)
+        console.log(web3)
+    }, [active])
 
     useEffect(() => {
         if (!account) {
@@ -85,7 +106,7 @@ const Home = () => {
     }, [tokenTo, tokenFrom])
 
     useEffect(() => {
-        if (equalTokens !== true && tokenFrom.address !== '' && tokenTo.address !== '' && amountFrom > 0) {
+        if (!equalTokens && tokenFrom.address !== '' && tokenTo.address !== '' && amountFrom > 0) {
             dispatch({ type: actions.setAvailableReq, payload: false })
             dispatch({ type: actions.setFetchPriceLoad, payload: true })
             getRoute(service, dodoRequest).then((result) => {
@@ -104,7 +125,7 @@ const Home = () => {
                 dispatch({ type: actions.setAmountTo, payload: null })
             })
         }
-    }, [tokenFrom, dodoRequest, account, chainId])
+    }, [tokenFrom, dodoRequest, account])
 
     return (
         <Box>

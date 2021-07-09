@@ -4,14 +4,12 @@ import { useEffect, useState } from 'preact/hooks';
 import { Box, Text } from 'grommet';
 import { formatEther } from '@ethersproject/units';
 import { ERC20Abi, nativeTokenAdress } from '../../constants';
-import { useSigner } from '../../hooks';
 import { Contract } from '@ethersproject/contracts';
 
 export const UserBalance = (props: any) => {
-    const { account, library, chainId } = useWeb3React()
+    const { account, library } = useWeb3React()
     const tokenAddress = props.tokenAddress;
     const [balance, setBalance] = useState<number>(0)
-    const signer = useSigner()
 
     useEffect((): any => {
         if (account && library) {
@@ -25,7 +23,8 @@ export const UserBalance = (props: any) => {
                 })
             }
 
-            if (tokenAddress !== '' && tokenAddress !== nativeTokenAdress && signer) {
+            if (tokenAddress !== '' && tokenAddress !== nativeTokenAdress && library) {
+                let signer = library.getSigner()
                 const erc20 = new Contract(tokenAddress, ERC20Abi, signer);
                 erc20.balanceOf(account).then((balance: any) => {
                     setBalance(balance)
@@ -38,7 +37,7 @@ export const UserBalance = (props: any) => {
                 setBalance(0)
             }
         }
-    }, [account, library, chainId, tokenAddress])
+    }, [account, library, tokenAddress])
 
     return (
         <Box>
