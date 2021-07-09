@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import ModalConnect from '../layout/ModalConnect';
-import { Box, Distribution } from 'grommet';
+import { Box } from 'grommet';
 import PanelTrade from '../layout/PanelTrade';
 import { useDispatch, useStore, useService } from '../hooks';
 import { actions } from '../constants';
@@ -10,14 +10,11 @@ import { getListTokens } from '../services/getListTokens';
 import { getNetworkAlias } from '../services/getNetworkAlias';
 import { getRoute } from '../services/getRoute';
 import { parseAmount } from '../services/tradeHandler';
-import { tradeStore } from '../reducers/tradeReducer';
 
 const Home = () => {
 
     const service = useService();
     const dispatch = useDispatch();
-    const web3 = useWeb3React();
-    const store = useStore()
     const { account, chainId, active } = useWeb3React();
     const { tokenTo, tokenFrom, amountFrom, dodoRequest, equalTokens } = useStore();
     const [alias, setAlias] = useState<string | null>(null)
@@ -65,8 +62,6 @@ const Home = () => {
             setCurrentChainId(chainId)
         }
         getNetworkAlias(chainId, setAlias, setRpc, dispatch)
-        console.log(store)
-        console.log(web3)
     }, [active])
 
     useEffect(() => {

@@ -8,6 +8,7 @@ import { TipTrade } from '../components/PanelTrade/TipTrade';
 import { useWeb3React } from '@web3-react/core';
 import { sendTradeEthBase, sendTradeTokenBase } from '../services/tradeHandler';
 import { useEffect, useState } from 'preact/hooks';
+import { Android } from 'grommet-icons';
 
 const PanelTrade = () => {
     const { tokenFrom, tokenTo, amountTo, dodoRequest, fetchPriceLoad, availableReq, tradeRequest, pricePerFromToken, equalTokens, explorerUrl } = useStore()
@@ -64,37 +65,41 @@ const PanelTrade = () => {
                 }
 
                 <Box fill pad={{ horizontal: 'xsmall' }}>
-                    <Button primary fill label='Confirm' disabled={availableReq && !requesting ? false : true} onClick={() => {
-                        setRequesting(true)
-                        let signer = library.getSigner()
+                    <Button
+                        primary
+                        fill
+                        label='Confirm'
+                        disabled={availableReq && !requesting ? false : true}
+                        onClick={() => {
+                            setRequesting(true)
 
-                        if (fromEqualNative) {
-                            dispatch({ type: actions.setAvailableReq, payload: false })
-                            sendTradeEthBase(tradeRequest, account, signer).then((result: any) => {
-                                setHashTx(result.hash)
-                                setTradeSuccess(true)
-                                setRequesting(false)
-                            }).catch((error: any) => {
-                                setTradeError(true)
-                                setMessageError(error.message)
-                                setRequesting(false)
-                            })
-                        }
-
-                        if (tokenFrom !== '' && !fromEqualNative) {
-                            sendTradeTokenBase(tokenFrom, tradeRequest, account, signer)
-                                .then((result) => {
-                                    let _hash = `${result.hash.substring(0, 9)}...${result.hash.substring(result.hash.length - 8)}`
-                                    setHashTx(_hash)
+                            if (fromEqualNative && library) {
+                                dispatch({ type: actions.setAvailableReq, payload: false })
+                                sendTradeEthBase(tradeRequest, account, library).then((result: any) => {
+                                    setHashTx(result.hash)
                                     setTradeSuccess(true)
                                     setRequesting(false)
-                                }).catch((error) => {
+                                }).catch((error: any) => {
                                     setTradeError(true)
                                     setMessageError(error.message)
                                     setRequesting(false)
                                 })
-                        }
-                    }} />
+
+                            }
+                            if (tokenFrom !== '' && !fromEqualNative && library) {
+                                sendTradeTokenBase(tokenFrom, tradeRequest, account, library)
+                                    .then((result) => {
+                                        let _hash = `${result.hash.substring(0, 9)}...${result.hash.substring(result.hash.length - 8)}`
+                                        setHashTx(_hash)
+                                        setTradeSuccess(true)
+                                        setRequesting(false)
+                                    }).catch((error) => {
+                                        setTradeError(true)
+                                        setMessageError(error.message)
+                                        setRequesting(false)
+                                    })
+                            }
+                        }} />
                 </Box>
             </Box>
             {account && availableReq &&
